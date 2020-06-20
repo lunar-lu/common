@@ -11,7 +11,7 @@ import java.util.Objects;
 public class MatchersTest {
 
     @Test
-    public void matchTest() {
+    public void booleanTest() {
         Matchers.match(true)
                 .then(() -> {
                     assert true;
@@ -44,6 +44,22 @@ public class MatchersTest {
     @Test
     public void ofTest() {
 
+        Matchers.of("a")
+                .match("b").then(() -> {
+        })
+                .match("c").then(() -> {
+        })
+                .match("a").then(() -> {
+        });
+
+
+        Matchers.of("a")
+                .match("b").then(v -> {
+        })
+                .match("c").then(v -> {
+        })
+                .match("a").then(v -> {
+        });
 
         int case1 = Matchers.of("123")
                 .match("asd").then(() -> 1)
@@ -103,12 +119,79 @@ public class MatchersTest {
                 .match("11").then(3)
                 .defaultThen(4)
                 .result();
-        assert case7 == 4;
+        assert case7 == null;
 
 
         Integer case8 = Matchers.of("11")
                 .match("22").then(1)
                 .result();
         assert Objects.isNull(case8);
+
+
+        int case9 = Matchers.of("x")
+                .match("aa").then(1)
+                .match("x").then(2)
+                .defaultThen(3)
+                .result();
+        assert case9 == 2;
+
+    }
+
+    @Test
+    public void typeTest() {
+        Matchers.of(1)
+                .typeOf(Number.class)
+                .then(() -> {
+                    assert true;
+                })
+                .defaultThen(() -> {
+                    assert false;
+                });
+        Matchers.of(new D())
+                .typeOf(D.class)
+                .then(() -> {
+                    assert true;
+                })
+                .defaultThen(() -> {
+                    assert false;
+                });
+
+        Matchers.of(new A())
+                .typeOf(I.class)
+                .then(() -> {
+                    assert true;
+                })
+                .defaultThen(() -> {
+                    assert false;
+                });
+
+        Matchers.of(new B())
+                .typeOf(C.class)
+                .then(() -> {
+                    assert true;
+                })
+                .defaultThen(() -> {
+                    assert false;
+                });
+    }
+
+    interface I {
+
+    }
+
+    static abstract class C {
+
+    }
+
+    static class A implements I {
+
+    }
+
+    static class B extends C {
+
+    }
+
+    static class D {
+
     }
 }

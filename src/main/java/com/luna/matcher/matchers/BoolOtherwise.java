@@ -12,6 +12,7 @@ public interface BoolOtherwise<K> {
     Resultable<K> otherwise(Supplier<K> supplier);
 
     interface RunnableBoolOtherWise {
+
         void otherwise(Runnable runnable);
     }
 }

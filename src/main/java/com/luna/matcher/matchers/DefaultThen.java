@@ -13,4 +13,6 @@ public interface DefaultThen<T, K> {
     Resultable<K> defaultThen(Supplier<K> supplier);
 
     Resultable<K> defaultThen(Function<T, K> fun);
+
+    void defaultThen(Runnable runnable);
 }

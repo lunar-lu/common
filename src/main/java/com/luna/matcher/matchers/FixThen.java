@@ -1,5 +1,6 @@
 package com.luna.matcher.matchers;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -13,5 +14,9 @@ public interface FixThen<T, K> {
     FixMatchable<T, K> then(Supplier<K> supplier);
 
     FixMatchable<T, K> then(Function<T, K> fun);
+
+    FixMatchable<T, K> then(Consumer<T> consumer);
+
+    FixMatchable<T, K> then(Runnable runnable);
 
 }

@@ -20,6 +20,6 @@ public interface DynamicMatchable<T> extends Matchable<T> {
     /**
     * 类型匹配
     */
-    DynamicThen<T> typeOf(Class<T> clazz);
+    DynamicThen<T> typeOf(Class<?> clazz);
 
 }

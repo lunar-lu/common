@@ -1,5 +1,6 @@
 package com.luna.matcher.matchers;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -14,6 +15,8 @@ public interface DynamicThen<T> {
 
     <K> FixMatchable<T, K> then(Function<T, K> fun);
 
-//    <K> FixMatchable<T, K> then(Consumer<T> consumer);
+    FixMatchable<T, Void> then(Consumer<T> consumer);
+
+    FixMatchable<T, Void> then(Runnable runnable);
 
 }

@@ -3,6 +3,7 @@ package com.luna.matcher.matchers;
 import com.luna.matcher.Matchers;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -34,8 +35,12 @@ public class DynamicMatcher<T, K> extends ResultMatcher<T, K> implements Dynamic
     }
 
     @Override
-    public DynamicThen<T> typeOf(Class<T> clazz) {
-        return null;
+    public DynamicThen<T> typeOf(Class<?> clazz) {
+        return match(o ->
+                Objects.nonNull(clazz) &&
+                        Objects.nonNull(o) &&
+                        clazz.isAssignableFrom(o.getClass())
+        );
     }
 
     static class MatchedDynamicThen<T> extends Matcher<T> implements DynamicThen<T> {
@@ -44,19 +49,36 @@ public class DynamicMatcher<T, K> extends ResultMatcher<T, K> implements Dynamic
             super(object);
         }
 
+        private <K> FixMatchable<T, K> fixMatchable(K result) {
+            return new FixMatcher.MatchedFixMatcher<>(this.object, result, true);
+
+        }
+
         @Override
         public <K> FixMatchable<T, K> then(K result) {
-            return new FixMatcher.MatchedFixMatcher<>(this.object, result, true);
+            return fixMatchable(result);
         }
 
         @Override
         public <K> FixMatchable<T, K> then(Supplier<K> supplier) {
-            return new FixMatcher.MatchedFixMatcher<>(this.object, supplier.get(), true);
+            return fixMatchable(supplier.get());
         }
 
         @Override
         public <K> FixMatchable<T, K> then(Function<T, K> fun) {
-            return new FixMatcher.MatchedFixMatcher<>(this.object, fun.apply(this.object), true);
+            return fixMatchable(fun.apply(this.object));
+        }
+
+        @Override
+        public FixMatchable<T, Void> then(Consumer<T> consumer) {
+            consumer.accept(this.object);
+            return fixMatchable(null);
+        }
+
+        @Override
+        public FixMatchable<T, Void> then(Runnable runnable) {
+            runnable.run();
+            return fixMatchable(null);
         }
 
     }
@@ -84,6 +106,16 @@ public class DynamicMatcher<T, K> extends ResultMatcher<T, K> implements Dynamic
 
         @Override
         public <K> FixMatchable<T, K> then(Function<T, K> fun) {
+            return fixMatchable();
+        }
+
+        @Override
+        public FixMatchable<T, Void> then(Consumer<T> consumer) {
+            return fixMatchable();
+        }
+
+        @Override
+        public FixMatchable<T, Void> then(Runnable runnable) {
             return fixMatchable();
         }
 

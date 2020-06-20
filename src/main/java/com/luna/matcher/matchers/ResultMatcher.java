@@ -38,6 +38,10 @@ public abstract class ResultMatcher<T, K> extends Matcher<T> implements Resultab
         super();
     }
 
+    protected boolean isUnMatched() {
+        return !isMatched();
+    }
+
     protected boolean isMatched() {
         return this.matched;
     }
