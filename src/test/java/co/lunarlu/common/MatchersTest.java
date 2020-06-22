@@ -1,4 +1,4 @@
-package com.luna.matcher;
+package co.lunarlu.common;
 
 import org.junit.Test;
 
@@ -194,4 +194,8 @@ public class MatchersTest {
     static class D {
 
     }
+
+    public static void main(String[] args) {
+    }
+
 }
