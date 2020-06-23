@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>co.lunarlu.commons</groupId>
+    <groupId>org.lunarlu.commons</groupId>
     <artifactId>common</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <dependencies>
 
@@ -54,7 +54,7 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
@@ -67,6 +67,19 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -97,10 +110,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/lunar-lu/common.git</connection>
-        <developerConnection>scm:git:ssh://github.com:lunar-lu/common.git</developerConnection>
-        <url>https://github.com/lunar-lu/common/tree/master</url>
+        <connection>https://github.com/lunar-lu/common.git</connection>
+        <url>https://github.com/lunar-lu/common</url>
     </scm>
+
 
     <distributionManagement>
         <snapshotRepository>
@@ -112,5 +125,4 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
 </project>
